@@ -56,12 +56,14 @@ struct Home: View {
     
     @StateObject var comicsViewModel = ComicsViewModel()
     
+    @State var queryString: String = ""
+    
     var body: some View {
         
         NavigationView {
             
             VStack {
-                List(comicsViewModel.comics, id: \.self) { comic in
+                List(searchResults, id: \.self) { comic in
                     NavigationLink {
                         ComicDetailView(comic: comic)
                     } label: {
@@ -72,10 +74,9 @@ struct Home: View {
                 .navigationTitle("XKCD")
                 .onAppear {
                     comicsViewModel.getLatestComic()
-//                    comicsViewModel.currentComicStartIndex = comicsViewModel.comicLatestIndex
-//                    comicsViewModel.comicIndex = comicsViewModel.currentComicStartIndex - 20
-                    //comicsViewModel.fetch()
+
                 }
+                .searchable(text: $queryString)
                 
                 Button {
                     comicsViewModel.currentComicStartIndex = comicsViewModel.comicIndex - 1
@@ -90,6 +91,14 @@ struct Home: View {
            
         } //: NAVIGATIONVIEW
     
+    }
+    
+    var searchResults: [Comic] {
+        if queryString.isEmpty {
+            return comicsViewModel.comics
+        } else {
+            return comicsViewModel.comics.filter { String($0.num).contains(queryString) || $0.title.contains(queryString)}
+        }
     }
 }
 
