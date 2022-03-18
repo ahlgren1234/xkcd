@@ -29,10 +29,43 @@ struct ComicRowView: View {
             Text(comic.alt)
                 .font(.caption)
                 .foregroundColor(.gray)
+            
+            HStack {
+                (
+                    Text("No: ")
+                        .bold()
+                        .font(.caption)
+                    +
+                    Text(String(comic.num))
+                        .font(.caption)
+                )
+                
+                Spacer()
+                
+                (
+                    Text("Year: ")
+                        .bold()
+                        .font(.caption)
+                    +
+                    Text(comic.year)
+                        .font(.caption)
+                )
+                
+                (
+                    Text("Month: ")
+                        .bold()
+                        .font(.caption)
+                    +
+                    Text(comic.month)
+                        .font(.caption)
+                )
+                
+                
+            } //: HSTACK
                 
             
         } //: VSTACK
-        .padding(.horizontal)
+        .padding()
         
     }
 }
